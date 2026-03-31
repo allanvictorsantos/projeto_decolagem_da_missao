@@ -1,4 +1,5 @@
 # 🚀 Projeto Decolagem da Missão (Aurora Siger)
+# 🚀 Projeto Decolagem da Missão (Aurora Siger)
 
 ## 📋 Como o Projeto Funciona
 Este projeto analisa a telemetria da missão espacial Aurora Siger e executa verificações rigorosas de pré-decolagem usando o notebook `verificacao_decolagem_notebook.ipynb`. 
