@@ -1,5 +1,4 @@
 # 🚀 Projeto Decolagem da Missão (Aurora Siger)
-# 🚀 Projeto Decolagem da Missão (Aurora Siger)
 
 ## 📋 Como o Projeto Funciona
 Este projeto analisa a telemetria da missão espacial Aurora Siger e executa verificações rigorosas de pré-decolagem usando o notebook `verificacao_decolagem_notebook.ipynb`. 
@@ -38,32 +37,37 @@ O algoritmo processa o arquivo `telemetria_missao.csv` e avalia dados vitais de 
 
 ---
 # Fluxograma
+
 ```mermaid
 flowchart TD
   A[Início] --> B[Carregar telemetria CSV]
-  B --> C{Dados válidos?}
-  C -- Não --> C1[Registrar erro + abortar]
-  C -- Sim --> D[Limpagem / normalização]
-  D --> E[Calcular energia atual e disponível]
-  E --> F[Verificações de pré-lançamento]
+  B --> C{Arquivo encontrou?}
+  C -- Não --> C1[Erro: arquivo ausente ou corrompido]
+  C -- Sim --> D[Verifica colunas obrigatórias]
+  D --> E{Colunas OK?}
+  E -- Não --> E1[Erro: colunas faltantes/incompatíveis]
+  E -- Sim --> F[Limpagem / normalização de dados]
+  F --> G[Calcular energia atual e disponível]
+  G --> H[Verificações de pré-lançamento]
 
-  subgraph verif[Verificações detalhadas]
-    F1[Temperatura interna 15°C-28°C] --> F2[Temperatura externa -50°C-60°C]
-    F2 --> F3[Integridade estrutural == True]
-    F3 --> F4[Nível de energia 60%-100%]
-    F4 --> F5[Energia disponível >= 350 kWh]
-    F5 --> F6[Pressão tanques 80-150 PSI]
-    F6 --> F7[Módulos críticos True]
+  subgraph verif[Critérios de cada registro]
+    H1[Temp Int 15°C-28°C] --> H2[Temp Ext -50°C-60°C]
+    H2 --> H3[Integridade estrutural == True]
+    H3 --> H4[Energia 60%-100%]
+    H4 --> H5[Energia disponível >= 350 kWh]
+    H5 --> H6[Pressão tanques 80-150 PSI]
+    H6 --> H7[Módulos críticos == True]
   end
 
-  F --> verif
-  verif --> G{Todas verificações OK?}
-  G -- Não --> H[Decisão: DECOLAGEM ABORTADA]
-  G -- Sim --> I[Decisão: PRONTO PARA DECOLAR]
-  H --> J[Montar relatório de falhas]
-  I --> J[Montar relatório de sucesso]
-  J --> K[Imprimir resumo e tabela detalhada]
-  K --> L[Fim]
+  H --> verif
+  verif --> I{Todos os critérios OK?}
+  I -- Não --> J[Decisão: DECOLAGEM ABORTADA]
+  I -- Sim --> K[Decisão: PRONTO PARA DECOLAR]
+  J --> L[Registra falhas por registro]
+  K --> L[Registra sucesso por registro]
+  L --> M[Resumo de totais: aprovados/abortados]
+  M --> N[Exibe tabela detalhada no terminal]
+  N --> O[Fim]
 ```
 ---
 
